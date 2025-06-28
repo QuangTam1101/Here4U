@@ -6,6 +6,22 @@ const messageInput = document.querySelector(".message-input");
 const sendMessageButton = document.querySelector("#send-message");
 const languageSelectOverlay = document.getElementById("language-select");
 
+const chatBody = document.querySelector('.chat-body');
+const messageInput = document.querySelector('.message-input');
+
+function scrollToBottom() {
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+// Auto scroll khi gửi tin nhắn
+document.querySelector('#send-message').addEventListener('click', scrollToBottom);
+
+// Auto scroll khi focus vào input
+messageInput.addEventListener('focus', () => {
+    setTimeout(scrollToBottom, 300); 
+});
+
+
 // Ngôn ngữ mặc định
 let userLang = "vi";
 
