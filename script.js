@@ -6,14 +6,17 @@ const messageInput = document.querySelector(".message-input");
 const sendMessageButton = document.querySelector("#send-message");
 const languageSelectOverlay = document.getElementById("language-select");
 
+function scrollToBottomSmoothIfNear() {
+    const threshold = 100; // px
+    if (chatBody.scrollHeight - chatBody.scrollTop - chatBody.clientHeight < threshold) {
+        chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
+    }
+}
+
 function scrollToBottom() {
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-// Auto scroll khi gửi tin nhắn
-document.querySelector('#send-message').addEventListener('click', scrollToBottom);
-
-// Auto scroll khi focus vào input
 messageInput.addEventListener('focus', () => {
     setTimeout(scrollToBottom, 300); 
 });
@@ -184,15 +187,3 @@ messageInput.addEventListener("keydown", (e) => {
 });
 
 sendMessageButton.addEventListener("click", handOutgoingMessage);
-
-let keyboardOpenScrollInterval;
-
-messageInput.addEventListener("focus", () => {
-  keyboardOpenScrollInterval = setInterval(() => {
-    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
-  }, 300);
-});
-
-messageInput.addEventListener("blur", () => {
-  clearInterval(keyboardOpenScrollInterval);
-});
