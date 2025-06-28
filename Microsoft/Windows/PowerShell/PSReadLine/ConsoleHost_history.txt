@@ -1,0 +1,61 @@
+netstat -ano | findstr :5500`
+
+tasklist | findstr 14220`
+
+mkdir gemini-proxy`
+cd gemini-proxy`
+npm init -y`
+npm install express cors axios dotenv
+npm init -y`
+npm install express cors axios dotenv`
+
+mkdir gemini-proxy`
+cd gemini-proxy`
+npm init -y`
+npm install express cors axios dotenv
+node index.js`
+
+http://localhost:3000/chat`
+
+node index.js
+cd "C:\Users\Quang Tâm\Desktop\Mental health chatbox"
+dir`
+
+cd "C:\Users\Quang Tâm\Desktop\Mental health chatbox\gemini-proxy"`
+
+node index.js`
+
+notepad index.js`
+
+node index.js`
+
+cd "C:\Users\Quang Tâm\Desktop\Mental health chatbox\gemini-proxy"`
+
+npm install`
+
+node index.js`
+
+npm install dotenv express cors axios`
+
+node index.js`
+
+cd "C:\Users\Quang Tâm\Desktop\Mental health chatbox"`
+mkdir gemini-proxy`
+cd gemini-proxy`
+
+npm init -y`
+
+npm install express cors axios dotenv`
+
+cd C:\Users\Public`
+mkdir chatbot`
+cd chatbot`
+
+npm init -y`
+npm install express cors axios dotenv`
+
+cd C:\Users\Public
+mkdir chatbot
+cd chatbot
+npm init -y
+npm install express cors axios dotenv
