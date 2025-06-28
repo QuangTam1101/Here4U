@@ -6,9 +6,6 @@ const messageInput = document.querySelector(".message-input");
 const sendMessageButton = document.querySelector("#send-message");
 const languageSelectOverlay = document.getElementById("language-select");
 
-const chatBody = document.querySelector('.chat-body');
-const messageInput = document.querySelector('.message-input');
-
 function scrollToBottom() {
     chatBody.scrollTop = chatBody.scrollHeight;
 }
