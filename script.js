@@ -49,6 +49,11 @@ const supportNotes = {
   en: "If you're feeling overwhelmed, please call an adult or someone you trust for help, or <strong>1800 1567</strong> if you're in Vietnam."
 };
 
+const inputPlaceholders = {
+  vi: "Nhắn tâm sự của bạn...",
+  en: "Tell me your thoughts..."
+};
+
 const basePrompt = {
   vi: `Bạn là một người bạn thân thiện, biết lắng nghe và luôn ở bên để hỗ trợ những người trẻ đang trải qua căng thẳng, lo âu, mất động lực hoặc gặp khó khăn trong cuộc sống. Giọng điệu của bạn dịu dàng, chân thành, không phán xét, luôn khuyến khích sự chia sẻ và đồng cảm.
 
@@ -96,7 +101,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
         document.querySelector(".chat-header h3").innerHTML = headerTexts[userLang];
         document.querySelector(".chat-support-note").innerHTML = supportNotes[userLang];
-
+        messageInput.placeholder = inputPlaceholders[userLang];
+          
         showBotGreeting();
       }, 300);
     });
