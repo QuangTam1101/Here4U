@@ -10,7 +10,34 @@ let knownCause = false;
 
 function detectKnownCause(message) {
     const lowerMsg = message.toLowerCase();
-    const keywords = ["học", "bài", "thi", "điểm", "bạn", "bè", "gia đình", "ba mẹ", "mẹ", "bố", "cha", "yêu", "tình cảm"];
+    const keywords = [
+        // Học tập, điểm số
+        "học", "bài", "thi", "kiểm tra", "điểm", "bằng cấp", "trường", "lớp", "bài tập", "deadline", "thi cử", "học hành", "áp lực học",
+
+        // Bạn bè, xã hội
+        "bạn", "bè", "bạn bè", "tình bạn", "cô lập", "bị bỏ rơi", "bị cô lập", "không ai chơi", "một mình", "cô đơn", "không có bạn", "cô độc",
+
+        // Gia đình
+        "gia đình", "ba mẹ", "cha mẹ", "mẹ", "bố", "cha", "ông bà", "bị la", "bị mắng", "bị áp lực", "áp lực gia đình", "xung đột gia đình",
+
+        // Tình cảm, yêu đương
+        "yêu", "tình cảm", "crush", "bạn trai", "bạn gái", "mối quan hệ", "chia tay", "cãi nhau", "gãy đổ",
+
+        // LGBT / Giới tính
+        "gay", "les", "lgbt", "đồng tính", "song tính", "chuyển giới", "giới tính", "bị kỳ thị", "kỳ thị", "coming out", "queer", "bị ba mẹ kỳ thị", "bị gia đình kỳ thị",
+
+        // Stress, lo âu
+        "stress", "lo lắng", "căng thẳng", "mệt mỏi", "kiệt sức", "bị trầm cảm", "buồn",
+
+        // Bắt nạt, bạo lực
+        "bắt nạt", "bị bắt nạt", "bạo lực", "bạo hành", "bị đánh", "bị chửi",
+
+        // Tự ti, áp lực bản thân
+        "tự ti", "ghét bản thân", "tệ hại", "không giỏi", "vô dụng", "không ai yêu", "không ai hiểu",
+
+        // Khác
+        "sức khỏe", "thân thể", "ngoại hình", "béo", "ốm", "mập", "gầy", "tự hại", "tự làm đau"
+    ];
     return keywords.some(keyword => lowerMsg.includes(keyword));
 }
 
