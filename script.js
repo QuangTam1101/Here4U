@@ -193,18 +193,22 @@ const generateBotResponse = async (incomingMessageDiv) => {
 
     let dynamicPrompt = "";
     if (!knownCause) {
-        dynamicPrompt = `Bạn chỉ cần lắng nghe và hỏi nhẹ nhàng thêm để hiểu rõ điều khiến bạn ấy stress, buồn, lo lắng, KHÔNG đưa ra lời khuyên vội.`;
+        dynamicPrompt = `Hãy chỉ lắng nghe và hỏi nhẹ nhàng thêm để hiểu rõ điều khiến bạn ấy stress, buồn, lo lắng, KHÔNG đưa ra lời khuyên vội.`;
     } else {
         dynamicPrompt = `Bạn đã biết nguyên nhân khiến bạn ấy stress, buồn, lo lắng, giờ bạn có thể đưa ra một lời khuyên nhẹ nhàng, thực tế, không phán xét, không ép buộc.`;
     }
+
+    const fullPrompt = `${basePrompt[userLang]}\n${dynamicPrompt}\n\nNgười dùng chia sẻ:\n"${userData.message}"`;
 
     const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             contents: [
-                { role: "system", parts: [{ text: `${basePrompt[userLang]}\n${dynamicPrompt}` }] },
-                { role: "user", parts: [{ text: userData.message }] }
+                {
+                    role: "user",
+                    parts: [{ text: fullPrompt }]
+                }
             ]
         })
     };
@@ -212,9 +216,14 @@ const generateBotResponse = async (incomingMessageDiv) => {
     try {
         const response = await fetch(API_URL, requestOptions);
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error.message);
+        if (!response.ok || !data.candidates || !data.candidates[0]) {
+            throw new Error(data.error?.message || "Unknown error");
+        }
 
-        const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+        const apiResponseText = data.candidates[0].content.parts[0].text
+            .replace(/\*\*(.*?)\*\*/g, "$1")
+            .trim();
+
         messageElement.innerText = apiResponseText;
     } catch (error) {
         console.error("Lỗi khi tạo phản hồi của bot:", error);
@@ -224,6 +233,7 @@ const generateBotResponse = async (incomingMessageDiv) => {
         scrollToBottomSmoothIfNear();
     }
 };
+
 
 const handOutgoingMessage = (e = null) => {
     if (e) e.preventDefault();
