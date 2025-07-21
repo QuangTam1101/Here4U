@@ -63,14 +63,10 @@ messageInput.addEventListener('focus', () => {
 let userLang = "vi";
 
 const greetings = {
-  vi: `Chào bạn! Mình là <strong>Calmi</strong> – một người bạn ảo luôn sẵn sàng lắng nghe và đồng hành cùng bạn 😊  
-Mình có thể hỗ trợ bạn khi cảm thấy căng thẳng, mất động lực hoặc cần một ai đó để tâm sự.  
-Mọi phản hồi đều do AI tạo ra và chỉ mang tính tham khảo, không thay thế cho tư vấn chuyên môn 💛  
+  vi: `Chào bạn! Mình là <strong>Calmi</strong> – một người bạn ảo luôn sẵn sàng lắng nghe và đồng hành cùng bạn 😊  Mọi phản hồi đều do AI tạo ra và chỉ mang tính tham khảo, không thay thế cho tư vấn chuyên môn 💛  
 Bạn muốn chia sẻ điều gì hôm nay?`,
 
-  en: `Hi there! I'm <strong>Calmi</strong> – your virtual companion who’s here to listen and support you 😊  
-I can help when you're feeling stressed, unmotivated, or just need someone to talk to.  
-All responses are AI-generated and should be seen as support, not a replacement for professional advice 💛  
+  en: `Hi there! I'm <strong>Calmi</strong> – your virtual companion who’s here to listen and support you 😊  All responses are AI-generated and should be seen as support, not a replacement for professional advice 💛  
 What would you like to share today?`
 };
 
