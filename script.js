@@ -6,6 +6,14 @@ const messageInput = document.querySelector(".message-input");
 const sendMessageButton = document.querySelector("#send-message");
 const languageSelectOverlay = document.getElementById("language-select");
 
+let knownCause = false;
+
+function detectKnownCause(message) {
+    const lowerMsg = message.toLowerCase();
+    const keywords = ["học", "bài", "thi", "điểm", "bạn", "bè", "gia đình", "ba mẹ", "mẹ", "bố", "cha", "yêu", "tình cảm"];
+    return keywords.some(keyword => lowerMsg.includes(keyword));
+}
+
 function scrollToBottomSmoothIfNear() {
     const threshold = 100; 
     if (chatBody.scrollHeight - chatBody.scrollTop - chatBody.clientHeight < threshold) {
@@ -158,60 +166,72 @@ const createMessageElement = (content, ...classes) => {
 };
 
 const generateBotResponse = async (incomingMessageDiv) => {
-  const messageElement = incomingMessageDiv.querySelector(".message-text");
+    const messageElement = incomingMessageDiv.querySelector(".message-text");
 
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [
-        { role: "user", parts: [{ text: basePrompt[userLang] }] },
-        { role: "user", parts: [{ text: userData.message }] }
-      ]
-    })
-  };
+    let dynamicPrompt = "";
+    if (!knownCause) {
+        dynamicPrompt = `Bạn chỉ cần lắng nghe và hỏi nhẹ nhàng thêm để hiểu rõ điều khiến bạn ấy stress, buồn, lo lắng, KHÔNG đưa ra lời khuyên vội.`;
+    } else {
+        dynamicPrompt = `Bạn đã biết nguyên nhân khiến bạn ấy stress, buồn, lo lắng, giờ bạn có thể đưa ra một lời khuyên nhẹ nhàng, thực tế, không phán xét, không ép buộc.`;
+    }
 
-  try {
-    const response = await fetch(API_URL, requestOptions);
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error.message);
+    const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            contents: [
+                { role: "system", parts: [{ text: `${basePrompt[userLang]}\n${dynamicPrompt}` }] },
+                { role: "user", parts: [{ text: userData.message }] }
+            ]
+        })
+    };
 
-    const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
-    messageElement.innerText = apiResponseText;
-  } catch (error) {
-    console.error("Lỗi khi tạo phản hồi của bot:", error);
-    messageElement.innerText = "Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại.";
-  } finally {
-    incomingMessageDiv.classList.remove("thinking");
-  }
+    try {
+        const response = await fetch(API_URL, requestOptions);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error.message);
+
+        const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+        messageElement.innerText = apiResponseText;
+    } catch (error) {
+        console.error("Lỗi khi tạo phản hồi của bot:", error);
+        messageElement.innerText = "Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại.";
+    } finally {
+        incomingMessageDiv.classList.remove("thinking");
+        scrollToBottomSmoothIfNear();
+    }
 };
 
 const handOutgoingMessage = (e = null) => {
-  if (e) e.preventDefault();
+    if (e) e.preventDefault();
 
-  const userMessage = messageInput.value.trim();
-  if (!userMessage) return;
+    const userMessage = messageInput.value.trim();
+    if (!userMessage) return;
 
-  userData.message = userMessage;
-  messageInput.value = "";
+    userData.message = userMessage;
+    messageInput.value = "";
 
-  const outgoingMessageDiv = createMessageElement(`<div class="message-text">${userData.message}</div>`, "user-message");
-  chatBody.appendChild(outgoingMessageDiv);
-  chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
+    const outgoingMessageDiv = createMessageElement(`<div class="message-text">${userData.message}</div>`, "user-message");
+    chatBody.appendChild(outgoingMessageDiv);
+    scrollToBottomSmoothIfNear();
 
-  setTimeout(() => {
-    const messageContent = `${svgIcon}<div class="message-text">
-      <div class="thinking-indicator">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-    </div>`;
+    if (!knownCause && detectKnownCause(userMessage)) {
+        knownCause = true; 
+    }
 
-    const incomingMessageDiv = createMessageElement(messageContent, "bot-message", "thinking");
-    chatBody.appendChild(incomingMessageDiv);
-    generateBotResponse(incomingMessageDiv);
-  }, 600);
+    setTimeout(() => {
+        const messageContent = `${svgIcon}<div class="message-text">
+          <div class="thinking-indicator">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>`;
+
+        const incomingMessageDiv = createMessageElement(messageContent, "bot-message", "thinking");
+        chatBody.appendChild(incomingMessageDiv);
+        generateBotResponse(incomingMessageDiv);
+    }, 600);
 };
 
 messageInput.addEventListener("keydown", (e) => {
