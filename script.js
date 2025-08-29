@@ -215,6 +215,7 @@ const generateBotResponse = async (incomingMessageDiv) => {
     try {
         const response = await fetch(API_URL, requestOptions);
         const data = await response.json();
+
         if (!response.ok || !data.candidates || !data.candidates[0]) {
             throw new Error(data.error?.message || "Unknown error");
         }
@@ -274,5 +275,3 @@ messageInput.addEventListener("keydown", (e) => {
 });
 
 sendMessageButton.addEventListener("click", handOutgoingMessage);
-
-
