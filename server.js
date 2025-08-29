@@ -8,9 +8,6 @@ app.use(express.json());
 
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
 
-console.log("API KEY:", process.env.GEMINI_API_KEY);
-console.log("API URL:", API_URL);
-
 app.post('/api/chat', async (req, res) => {
   try {
     const requestOptions = {
@@ -35,6 +32,7 @@ app.post('/api/chat', async (req, res) => {
 
 
 module.exports = app;
+
 
 
 
