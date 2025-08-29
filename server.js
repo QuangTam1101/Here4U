@@ -1,24 +1,17 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const app = express();
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-app.use(cors());
-app.use(express.json());
-
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
-
-app.post('/api/chat', async (req, res) => {
   try {
-    const requestOptions = {
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+    
+    const response = await fetch(API_URL, {
       method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': process.env.GEMINI_API_KEY
-      },
-      body: JSON.stringify(req.body)
-    };
-    const response = await fetch(API_URL, requestOptions);
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(req.body),
+    });
+
     const data = await response.json();
 
     if (!response.ok) {
@@ -31,12 +24,4 @@ app.post('/api/chat', async (req, res) => {
     console.error("Server error:", err);
     res.status(500).json({ error: err.message });
   }
-});
-
-
-module.exports = app;
-
-
-
-
-
+}
