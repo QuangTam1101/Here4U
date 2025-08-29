@@ -11,7 +11,7 @@ const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-
 console.log("API KEY:", process.env.GEMINI_API_KEY);
 console.log("API URL:", API_URL);
 
-app.post('/chat', async (req, res) => {
+app.post('/api/chat', async (req, res) => {
   try {
     const requestOptions = {
       method: "POST",
@@ -39,4 +39,5 @@ app.post('/chat', async (req, res) => {
 
 
 module.exports = app;
+
 
