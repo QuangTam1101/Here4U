@@ -2,7 +2,7 @@
   "name": "here4u",
   "version": "1.0.0",
   "description": "AI Chatbot for mental health support",
-  "main": "server.js",
+  "main": "script.js",
   "scripts": {
     "start": "node server.js",
     "vercel-build": "echo 'Nothing to build'"
