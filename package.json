@@ -4,7 +4,6 @@
   "description": "AI Chatbot for mental health support",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
     "vercel-build": "echo 'Nothing to build'"
   },
   "keywords": [],
