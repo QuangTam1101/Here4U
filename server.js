@@ -12,7 +12,10 @@ app.post('/api/chat', async (req, res) => {
   try {
     const requestOptions = {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': process.env.GEMINI_API_KEY
+      },
       body: JSON.stringify(req.body)
     };
     const response = await fetch(API_URL, requestOptions);
@@ -32,6 +35,7 @@ app.post('/api/chat', async (req, res) => {
 
 
 module.exports = app;
+
 
 
 
