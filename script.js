@@ -174,7 +174,7 @@ const showBotGreeting = () => {
   chatBody.appendChild(greetingMessage);
 };
 
-const API_URL = "http://localhost:3000/chat";
+const API_URL = "/api/chat";
 
 const userData = {
   message: null
@@ -274,4 +274,5 @@ messageInput.addEventListener("keydown", (e) => {
 });
 
 sendMessageButton.addEventListener("click", handOutgoingMessage);
+
 
